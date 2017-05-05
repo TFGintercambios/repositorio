@@ -10,22 +10,27 @@ import {
  Marker
 } from '@ionic-native/google-maps';
 
+import { Geolocation } from '@ionic-native/geolocation';
+
+declare var google;
+declare var map;
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-
-  constructor(public navCtrl: NavController, private googleMaps: GoogleMaps) {
+ 
+  constructor(public navCtrl: NavController, private googleMaps: GoogleMaps, private geolocation:Geolocation) {
 
   }
-ngAfterViewInit() {
+ ngAfterViewInit() {
  this.loadMap();
 }
 
 loadMap() {
 
- let element: HTMLElement = document.getElementById('map');
+  let element: HTMLElement = document.getElementById('map');
 
  let map: GoogleMap = this.googleMaps.create(element);
 
@@ -52,5 +57,9 @@ loadMap() {
    title: 'Ionic'
  };
 
+	map.addMarker(markerOptions).then((marker: Marker) => {
+      marker.showInfoWindow();
+    });
  }
+
 }

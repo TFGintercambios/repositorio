@@ -12,6 +12,7 @@ import {
  MarkerOptions,
  Marker
 } from '@ionic-native/google-maps';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
@@ -20,6 +21,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
 
 @NgModule({
   declarations: [
@@ -44,6 +46,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
 	GoogleMaps,
+    Geolocation,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
