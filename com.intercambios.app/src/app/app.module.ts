@@ -2,6 +2,8 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
+import { Http, Headers } from '@angular/http'
+import {obtenerPlazasService} from '../services/obtenerPlazas';
 
 import {
  GoogleMaps,
@@ -18,9 +20,12 @@ import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
+import { LoginPage } from '../pages/login/login';
+import { RegistroPage } from '../pages/registro/registro';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { HttpModule } from '@angular/http';
 
 
 @NgModule({
@@ -29,10 +34,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+	LoginPage,
+    TabsPage,
+	RegistroPage,
   ],
   imports: [
     BrowserModule,
+	HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -41,13 +49,16 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+	LoginPage,
+    TabsPage,
+	RegistroPage,
   ],
   providers: [
     StatusBar,
 	GoogleMaps,
     Geolocation,
     SplashScreen,
+	obtenerPlazasService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
