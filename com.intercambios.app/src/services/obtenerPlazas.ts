@@ -7,12 +7,13 @@ import 'rxjs/add/operator/publish';
 
 @Injectable()
 export class obtenerPlazasService {
-
+    posts:any;
 	constructor(private http: Http) {}
 	
+    
  
 	getPlazas(){
-       let res = this.http.get('/api/plazaPropia/all').map(this.extractData).publish().refCount();
+       let res = this.http.get('http://evening-sea-67773.herokuapp.com/api/plazaPropia/all').map(this.extractData).publish().refCount();
 		return res;
 	}
  
@@ -20,6 +21,6 @@ export class obtenerPlazasService {
  
  private extractData(res: Response) {
         let body = res.json();
-        return body || {};
+        return body;
     }
 }

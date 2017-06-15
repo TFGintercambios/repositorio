@@ -5,16 +5,14 @@ import {
  GoogleMap,
  GoogleMapsEvent,
  LatLng,
- CameraPosition,
- MarkerOptions,
- Marker
+ CameraPosition
 } from '@ionic-native/google-maps';
 
-import {Http, Response, URLSearchParams, RequestOptions} from '@angular/http';
+import {Http, Response} from '@angular/http';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
-import {obtenerPlazasService} from '../../services/obtenerPlazas';
+import {gestionarMapaService} from '../../services/gestionarMapa';
 
 declare var google;
 declare var map;
@@ -22,7 +20,7 @@ declare var map;
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [obtenerPlazasService]
+  providers: [gestionarMapaService]
 })
 export class HomePage{
 	public plaz;
@@ -31,55 +29,48 @@ export class HomePage{
 	result:any; 
 	public datos;
 	public plat;
+	public localizacion;
 	
 	
-  constructor(public navCtrl: NavController, private googleMaps: GoogleMaps, private geolocation:Geolocation, private plazaService:obtenerPlazasService, private http: Http, platform: Platform ) {
-	this.plat=platform;
+  constructor(public navCtrl: NavController, private googleMaps: GoogleMaps, private gestionarMapa:gestionarMapaService, private http: Http, private geolocation:Geolocation, platform: Platform ) {
+		this.plat=platform;
+		this.localizacion=geolocation;
   }
 
   ngAfterViewInit() {
      this.plat.ready().then(() => {    
       // La plataforma esta lista y ya tenemos acceso a los plugins.
-        this.obtenerMarcadores();
+			this.loadMap();
      });
-  }
-  
- obtenerMarcadores():any{
-    this.plazaService.getPlazas().subscribe(response => {
-			//obtenemos las plazas desde la api y hacemos la llamada a loadmap pasandole las plazas cuando estén disponibles
-      this.loadMap(response);
-    });
-  }
-  
+
+  }     
  
-loadMap(plazas) {
-	this.plaz=plazas;
+loadMap(){	
+ 
+
 	let element: HTMLElement = document.getElementById('map');
 
 	let map: GoogleMap = this.googleMaps.create(element);
 
-	map.one(GoogleMapsEvent.MAP_READY).then(() => console.log('Map is ready!'));
+	map.one(GoogleMapsEvent.MAP_READY).then(() => {
+		console.log('Map is ready!');
+		this.gestionarMapa.setMap(map);		
+		this.gestionarMapa.pintarPlazas();
+		this.gestionarMapa.posIni();
+		this.localizar();
+ });
 
-	for(var p=0; p<plazas.length; p++){
-	let io: LatLng = new LatLng(plazas[p].latitud, plazas[p].longitud);
-	console.log(plazas[p].titulo); 	
-	let markerOptions: MarkerOptions = {
-		position: io,
-		title: plazas[p].titulo
-		};
-	map.addMarker(markerOptions).then((marker: Marker) => {
-		marker.showInfoWindow();
-		});
- }
- 
- let ionic: LatLng = new LatLng(37.362444, -5.9965);
-	let position: CameraPosition = {
-		target: ionic,
-		zoom: 13
-		};
-	map.moveCamera(position);
+
+}
+
+localizar(){
+let watch = this.geolocation.watchPosition();
+watch.subscribe((data) => {
+ // data can be a set of coordinates, or an error (if an error occurred).
+ // data.coords.latitude
+ // data.coords.longitude
+ this.gestionarMapa.geolocalizarMapa(data.coords.latitude, data.coords.longitude);	
+});
 	
-	
- }
- 
+}
 }

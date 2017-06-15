@@ -14,6 +14,10 @@ export class ContactPage {
 
   }
 	ionViewDidLoad(){
+
+    this.plazaService.getPlazas().subscribe(plazas => this.plaz = plazas);
 }
+
+
  
 }

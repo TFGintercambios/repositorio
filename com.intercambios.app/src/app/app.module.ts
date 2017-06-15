@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Http, Headers } from '@angular/http'
 import {obtenerPlazasService} from '../services/obtenerPlazas';
+import {gestionarMapaService} from '../services/gestionarMapa';
 
 import {
  GoogleMaps,
@@ -59,6 +60,7 @@ import { HttpModule } from '@angular/http';
     Geolocation,
     SplashScreen,
 	obtenerPlazasService,
+    gestionarMapaService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

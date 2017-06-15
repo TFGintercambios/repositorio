@@ -5,6 +5,7 @@
   <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
   <content src="index.html"/>
   <access origin="*"/>
+  <allow-navigation href="https://evening-sea-67773.herokuapp.com/api/*"/>
   <allow-navigation href="http://ionic.local/*"/>
   <allow-navigation href="http://192.168.56.1:8100"/>
   <allow-intent href="http://*/*"/>
